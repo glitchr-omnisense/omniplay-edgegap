@@ -72,7 +72,7 @@ final class EdgegapHostingTest extends TestCase
         self::assertSame([], $recorder->requests[0]['query']);
         self::assertStringNotContainsString(self::SECRET, (string) json_encode($server->toArray()), 'the secret is in the deployment only');
         self::assertStringNotContainsString(self::TOKEN, (string) json_encode($server->toArray()));
-        self::assertSame(['contracts' => ['hosting'], 'services' => ['game'], 'regions' => [], 'where' => 'Edgegap at https://api.edgegap.com, near 2 players'], $hosting->capabilities()->toArray());
+        self::assertSame(['contracts' => ['hosting'], 'lookupBy' => [], 'prices' => false, 'player' => null, 'attribution' => null, 'terms' => [], 'keyless' => false, 'services' => ['game'], 'regions' => [], 'where' => 'Edgegap at https://api.edgegap.com, near 2 players'], $hosting->capabilities()->toArray());
     }
 
     public function testARegionDeploysNearItsConfiguredLocationAndTheFqdnMayBeTheAddress(): void
@@ -80,7 +80,7 @@ final class EdgegapHostingTest extends TestCase
         $recorder = new Recorder();
         $hosting = self::hosting($recorder->client(self::api()), ['services' => ['game' => ['application' => 'my-game-server', 'version' => 'v1.4', 'address' => 'wss://{fqdn}:{port}/play']]]);
 
-        self::assertSame(['contracts' => ['hosting'], 'services' => ['game'], 'regions' => ['eu', 'na'], 'where' => 'Edgegap at https://api.edgegap.com'], $hosting->capabilities()->toArray());
+        self::assertSame(['contracts' => ['hosting'], 'lookupBy' => [], 'prices' => false, 'player' => null, 'attribution' => null, 'terms' => [], 'keyless' => false, 'services' => ['game'], 'regions' => ['eu', 'na'], 'where' => 'Edgegap at https://api.edgegap.com'], $hosting->capabilities()->toArray());
         $server = $hosting->start(self::service(), self::SECRET, 'na');
         $first = $hosting->start(self::service(), self::SECRET);
 
@@ -180,7 +180,7 @@ final class EdgegapHostingTest extends TestCase
     {
         $hosting = self::hosting((new Recorder())->client(self::api()), ['regions' => []]);
 
-        self::assertSame(['contracts' => [], 'services' => ['game'], 'regions' => [], 'where' => 'Edgegap at https://api.edgegap.com'], $hosting->capabilities()->toArray(), 'no player, no region: it starts nothing yet');
+        self::assertSame(['contracts' => [], 'lookupBy' => [], 'prices' => false, 'player' => null, 'attribution' => null, 'terms' => [], 'keyless' => false, 'services' => ['game'], 'regions' => [], 'where' => 'Edgegap at https://api.edgegap.com'], $hosting->capabilities()->toArray(), 'no player, no region: it starts nothing yet');
         foreach ([
             [$hosting, new Service('relay'), null, 'Edgegap starts no server of the "relay" service.'],
             [$hosting, self::service(), null, 'Edgegap places a deployment of the "game" service near its players: give their addresses (near()) or configure a region\'s location.'],
