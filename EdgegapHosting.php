@@ -15,6 +15,8 @@ use Omniplay\Model\Server;
 use Omniplay\Model\Service;
 use Omniplay\ProviderInterface;
 use Omniplay\Secret\SecretsInterface;
+use Omnisense\Contracts\Policy\DeclaresUsagePolicyInterface;
+use Omnisense\Contracts\Policy\UsagePolicy;
 
 /**
  * Game servers as Edgegap deployments, through its REST API: a server is a
@@ -37,8 +39,13 @@ use Omniplay\Secret\SecretsInterface;
  * takes 40 characters at most) are what running() rebuilds the servers
  * from.
  */
-final class EdgegapHosting implements ProviderInterface, HostingInterface
+final class EdgegapHosting implements ProviderInterface, HostingInterface, DeclaresUsagePolicyInterface
 {
+    /** Edgegap's usage policy, as its terms read on the day it says (provenance.verifiedAt). */
+    public const POLICY = __DIR__.'/policy.json';
+
+    private static ?UsagePolicy $policy = null;
+
     public const TAG = 'op:';
     public const TAG_LENGTH = 40;
 
@@ -88,6 +95,11 @@ final class EdgegapHosting implements ProviderInterface, HostingInterface
      * It starts servers when it knows where: near the players given
      * (near()), in any region asked, or near a configured region's location.
      */
+    public function usagePolicy(): UsagePolicy
+    {
+        return self::$policy ??= UsagePolicy::fromFile(self::POLICY);
+    }
+
     public function capabilities(): Capabilities
     {
         $near = [] !== $this->players;
@@ -97,6 +109,7 @@ final class EdgegapHosting implements ProviderInterface, HostingInterface
             services: array_keys($this->apps),
             regions: $near ? [] : array_keys($this->regions),
             where: 'Edgegap at '.$this->api.($near ? \sprintf(', near %d player%s', \count($this->players), 1 === \count($this->players) ? '' : 's') : ''),
+            policy: $this->usagePolicy(),
         );
     }
 

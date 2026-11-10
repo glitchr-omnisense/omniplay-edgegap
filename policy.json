@@ -1,0 +1,47 @@
+{
+    "$schema": "https://github.com/glitchr-omnisense/contracts/blob/1.x/resources/usage-policy.schema.json",
+    "provider": "edgegap",
+    "rateLimits": [
+        {
+            "max": 40,
+            "window": "second",
+            "scope": "application",
+            "operations": [
+                "start"
+            ],
+            "note": "\"Deployments at 40 requests per second\", per organization: start's POST /v2/deployments. Start then reads GET /v1/status/{request_id} until the server has an address: \"Context & Status at 20 requests per second\", requests made inside one start, which the guard does not count one by one. stop (DELETE /v1/stop/{request_id}) and running (GET /v1/deployments) are named in neither: not counted."
+        }
+    ],
+    "rights": {
+        "commercial": "contract",
+        "openSourceRequired": null,
+        "caching": {
+            "permission": "unknown",
+            "maxTtl": null
+        },
+        "storage": "unknown",
+        "redistribution": "unknown",
+        "attribution": {
+            "required": false,
+            "text": null,
+            "url": null,
+            "where": []
+        },
+        "licence": null
+    },
+    "requirements": {
+        "key": true,
+        "userAgent": {
+            "required": false,
+            "pattern": null
+        }
+    },
+    "provenance": {
+        "terms": "https://app.edgegap.com/terms-and-conditions",
+        "policy": "https://docs.edgegap.com/docs/api",
+        "verifiedAt": "2026-11-10",
+        "declaredBy": "maintainer",
+        "contact": "https://edgegap.atlassian.net/servicedesk/customer/portal/3",
+        "notes": "A paid service: its pay-as-you-go Standard Terms (or a subscription's) are the contract; they bar its competitors and any monitoring or benchmarking use. The API token (Authorization: token ...) gives unlimited access to the account: never in a game client. Caching, storage, credit: not stated. Edgegap asks to be contacted before releases and load tests."
+    }
+}

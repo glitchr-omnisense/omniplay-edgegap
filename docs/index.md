@@ -91,3 +91,7 @@ cd ../core/docker   # omnisense/omniplay's harness, OMNIPLAY_PLUGINS=../.. in it
 docker compose run --rm omniplay test
 EDGEGAP_API_TOKEN=... EDGEGAP_APPLICATION=... EDGEGAP_VERSION=... docker compose run --rm -e EDGEGAP_API_TOKEN -e EDGEGAP_APPLICATION -e EDGEGAP_VERSION omniplay live --testsuite edgegap
 ```
+
+## Usage policy
+
+The package declares its usage policy as data, in [policy.json](../policy.json) (omnisense/contracts' schema). Edgegap's API docs (read on 2026-11-10) allow 40 deployment requests a second per organization: the operation `start`, which omniplay's registry counts. Status reads (20 a second) happen inside a start and are in the notes; `stop` and `running` fall in neither limit. Commercial use is under contract (a paid service under its terms and conditions). A 429 and its `Retry-After` hold every call until the wait is over. A site may lower the limit, never raise it. `EdgegapHosting::usagePolicy()` reads it, and its Capabilities carry it (`policy()`).

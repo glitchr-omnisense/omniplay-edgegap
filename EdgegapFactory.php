@@ -73,7 +73,7 @@ final class EdgegapFactory extends ProviderFactory
         }
 
         return new EdgegapHosting(
-            new JsonClient($this->http ?? HttpClient::create(['timeout' => 30]), 'Edgegap', ['Accept' => 'application/json', 'User-Agent' => (string) $c->string('user_agent')]),
+            new JsonClient($this->http ?? HttpClient::create(['timeout' => 30]), 'Edgegap', ['Accept' => 'application/json', 'User-Agent' => (string) $c->string('user_agent')], $c->backoff()),
             $this->secrets ?? new EnvironmentSecrets(),
             (string) $c->string('token'),
             $apps,

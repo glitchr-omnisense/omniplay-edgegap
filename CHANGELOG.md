@@ -3,6 +3,7 @@
 ## Unreleased (1.x)
 
 ### Added
+- 2026-11-10: the usage policy declared as data, in `policy.json` (omnisense/contracts' schema, named in `composer.json`'s `extra.omnisense.policy`). The provider implements `DeclaresUsagePolicyInterface` and gives the policy to its Capabilities. The factory hands the provider's Backoff to its JsonClient, so that a 429 and its Retry-After hold every call. `Tests/PolicyTest.php`.
 - `omniplay/edgegap`: omnisense/omniplay's `HostingInterface` over Edgegap's REST API.
   `EdgegapFactory` (factory `edgegap`), `EdgegapHosting`, `AppVersion` (a service's application,
   version, port name, address, environment, internal port, resources, cached locations, tags).
