@@ -55,6 +55,17 @@ Options: `services` (required; see [docs/index.md](docs/index.md)), `token`, `re
 application and its version are made in Edgegap's dashboard first (the image, its ports, its
 resources).
 
+## Install
+
+```sh
+composer require omniplay/edgegap
+```
+
+It requires `omnisense/omniplay` `^1.0`, installed with it. A real call needs: **an Edgegap
+account** (its API token). With no account, its tests run on recorded answers (a `MockHttpClient`),
+and [omnisense/omniplay](https://github.com/glitchr-omnisense/omniplay#install-and-a-first-call)'s
+README has a first call that runs without one.
+
 ## Verified, and not
 
 - Verified (omnisense/omniplay's harness, PHP 8.4, 2026-11-08): the deployment's request field by
